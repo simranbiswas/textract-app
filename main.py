@@ -42,6 +42,10 @@ def upload_image():
     elif file and allowed_pdf(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        images = convert_from_bytes(open(filename, 'rb').read())
+        images[0].save(os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + '.jpg'))
+        img_path = str(filename) +'.jpg'
+        '''
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         images = convert_from_path(file_path)
         temp_images = []
@@ -52,9 +56,13 @@ def upload_image():
             temp_images.append(img_path)
 
         imgs = list(map(Image.open, temp_images))
-        
-        min_img_width = 1650
-        print(min_img_width)       
+        print(imgs)
+        print("####")
+        try:
+            min_img_width = min(i.width for i in imgs)
+        except:
+            min_img_width = imgs[0].width
+        print(min_img_width)
         # find total height of all images
         total_height = 0
         for i, img in enumerate(imgs):
@@ -68,9 +76,9 @@ def upload_image():
             y += img.height
 
         merged_image.save(os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + '.jpg'))
-        path = str(filename)+'.jpg'
-        text = ocr_text(path)
-        return render_template('upload.html', filename=path, text=text)
+        '''
+        text = ocr_text(img_path)
+        return render_template('upload.html', filename=img_path, text=text)
 
 
 @app.route('/display/<filename>')
