@@ -3,7 +3,7 @@ from app import app
 from flask import flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 from ocr import ocr_text
-from pdf2image import convert_from_path
+from pdf2image import convert_from_path, convert_from_bytes
 from PIL import Image
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
