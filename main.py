@@ -44,7 +44,7 @@ def upload_image():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         images = convert_from_bytes(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         print(images)
-        images.save(os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + '.jpg'))
+        images.save(os.path.join(app.config['UPLOAD_FOLDER'], 'pd.jpg'), 'JPEG')
         img_path = str(filename) +'.jpg'
         '''
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
