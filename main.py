@@ -53,7 +53,12 @@ def upload_image():
 
         imgs = list(map(Image.open, temp_images))
         print(imgs)
-        min_img_width = imgs[0].width        
+        print("#*#*#*#")
+        try:
+            min_img_width = min(i.width for i in imgs)
+        except:
+            min_img_width = imgs[0].width
+        print(min_img_width)       
         # find total height of all images
         total_height = 0
         for i, img in enumerate(imgs):
