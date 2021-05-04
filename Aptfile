@@ -1,4 +1,3 @@
-ligbl1
 libsm6
 libxrender1
 libfontconfig1
@@ -6,3 +5,4 @@ libice6
 tesseract-ocr
 tesseract-ocr-eng
 tesseract-ocr-hin
+ligbl1
