@@ -42,9 +42,9 @@ def upload_image():
     elif file and allowed_pdf(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        images = convert_from_path(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        images = convert_from_bytes(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         print(images)
-        images[0].save(os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + '.jpg'))
+        images.save(os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + '.jpg'))
         img_path = str(filename) +'.jpg'
         '''
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
