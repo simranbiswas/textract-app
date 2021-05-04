@@ -76,6 +76,7 @@ def display_image(filename):
     # print('display_image filename: ' + filename)
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
+port = int(os.environ.get('PORT', 5000))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=port)
