@@ -7,3 +7,4 @@ tesseract-ocr-eng
 tesseract-ocr-hin
 libgl1
 poppler-utils
+poppler-data
