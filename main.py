@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from ocr import ocr_text
 from pdf2image import convert_from_path, convert_from_bytes
 from PIL import Image
+from wand.image import Image
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -42,10 +43,17 @@ def upload_image():
     elif file and allowed_pdf(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        '''
         images = convert_from_path(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         print(images)
         images.save(os.path.join(app.config['UPLOAD_FOLDER'], 'pd.jpg'), 'JPEG')
         img_path = str(filename) +'.jpg'
+        '''
+        f = filename
+        with(Image(filename=f, resolution=120)) as source: 
+            for i, image in enumerate(source.sequence):
+                newfilename = f[:-4] + str(i + 1) + '.jpeg'
+                #Image(image).save(os.path.join(app.config['UPLOAD_FOLDER'], filename=newfilename)
         '''
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         images = convert_from_path(file_path)
@@ -78,7 +86,7 @@ def upload_image():
 
         merged_image.save(os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + '.jpg'))
         '''
-        text = ocr_text(img_path)
+        text = ocr_text(newfilename)
         return render_template('upload.html', filename=img_path, text=text)
 
 
