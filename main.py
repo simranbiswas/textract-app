@@ -9,13 +9,10 @@ from wand.image import Image
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-ALLOWED_EXTEN = set(['pdf'])
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def allowed_pdf(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTEN
 
 @app.route('/')
 def upload_form():
@@ -39,55 +36,6 @@ def upload_image():
         # print('upload_image filename: ' + filename)
         text = ocr_text(filename)
         return render_template('upload.html', filename=filename, text=text)
-
-    elif file and allowed_pdf(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        '''
-        images = convert_from_path(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print(images)
-        images.save(os.path.join(app.config['UPLOAD_FOLDER'], 'pd.jpg'), 'JPEG')
-        img_path = str(filename) +'.jpg'
-        '''
-        f = filename
-        with(Image(filename=f, resolution=120)) as source: 
-            for i, image in enumerate(source.sequence):
-                newfilename = f[:-4] + str(i + 1) + '.jpeg'
-                #Image(image).save(os.path.join(app.config['UPLOAD_FOLDER'], filename=newfilename)
-        '''
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        images = convert_from_path(file_path)
-        temp_images = []
-        for i in range(len(images)):
-            # images[i].save('sample' + str(i) + '.jpg')
-            images[i].save(os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + str(i) + '.jpg'))
-            img_path = os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + str(i) + '.jpg')
-            temp_images.append(img_path)
-
-        imgs = list(map(Image.open, temp_images))
-        print(imgs)
-        print("####")
-        try:
-            min_img_width = min(i.width for i in imgs)
-        except:
-            min_img_width = imgs[0].width
-        print(min_img_width)
-        # find total height of all images
-        total_height = 0
-        for i, img in enumerate(imgs):
-            total_height += imgs[i].height
-        # create new image object with width and total height
-        merged_image = Image.new(imgs[0].mode, (min_img_width, total_height))
-        # paste images together one by one
-        y = 0
-        for img in imgs:
-            merged_image.paste(img, (0, y))
-            y += img.height
-
-        merged_image.save(os.path.join(app.config['UPLOAD_FOLDER'], str(filename) + '.jpg'))
-        '''
-        text = ocr_text(newfilename)
-        return render_template('upload.html', filename=img_path, text=text)
 
 
 @app.route('/display/<filename>')
