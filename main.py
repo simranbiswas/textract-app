@@ -37,7 +37,7 @@ def upload_image():
         text = ocr_text(filename)
         return render_template('upload.html', filename=filename, text=text)
     else:
-        flash('Allowed image types are -> png, jpg, jpeg, pdf')
+        flash('Allowed image types are -> png, jpg, jpeg')
         return redirect(request.url)
 
 
